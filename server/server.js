@@ -1,14 +1,13 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const config = require("config");
-const db = config.get("mongoURI");
+const db = './config'
 // Connect Database
 
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
+    await mongoose.connect(db.mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -24,6 +23,7 @@ const connectDB = async () => {
 
 module.exports = connectDB;
 app.get("/", (req, res) => res.send("API Running"));
+app.use("/api/user", require("./routes/api/user"));
 
 //Init middleware
 app.use(express.json({ extended: false }));
